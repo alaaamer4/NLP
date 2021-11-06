@@ -7,10 +7,10 @@ ENV.config();
 const app = express();
 const API_KEY = process.env.API_KEY;
 
-const PORT = process.env.PORT || 5000;
+const PORT = process.env.PORT || 3000;
 app.use(express.json());
 app.use(cors());
-app.use(express.static(__dirname + "/dist"));
+app.use(express.static("dist"));
 
 app.get("/", function (req, res) {
   res.sendFile("dist/index.html");

@@ -2,16 +2,20 @@ import "./styles/style.scss";
 import { checkUrl } from "./js/checkURL";
 const form = document.querySelector("#form");
 const result = document.querySelector("#result");
+const validateInput = (input) => {
+  !checkUrl(input) && showError("this is not a valid url please try again");
+  return checkUrl(input);
+};
 form.addEventListener("submit", (e) => {
   e.preventDefault();
   const url = e.target.input.value;
-  const isValidUrl = checkUrl(url);
-  isValidUrl && urlAnalysis(url);
+  validateInput(url) && urlAnalysis(url);
   e.target.input.value = "";
 });
 
 const urlAnalysis = async (url) => {
   try {
+    console.log(process.env.PORT);
     const response = await fetch(
       "http://localhost:3000/api/analyse?url=" + url
     );
@@ -43,6 +47,9 @@ const showResult = (results) => {
 
 const showError = (error) => {
   result.innerHTML = `
-  <strong>${error}</strong>    
+  <div class="error">${error}</div>    
   `;
+  setTimeout(() => {
+    result.innerHTML = ``;
+  }, 4000);
 };
